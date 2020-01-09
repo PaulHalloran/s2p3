@@ -37,7 +37,7 @@ from scipy.spatial import KDTree
 min_depth_lim = 10.0
 max_depth_lim = 50.0
 
-start_year = 2015
+start_year = 1970
 end_year = 2100
 
 

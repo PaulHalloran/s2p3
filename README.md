@@ -36,9 +36,9 @@ vas, uas, clt, huss, tas, psl, sftlf, rsds and rlds
 
 These correspond to U and V surface winds, cloud fraction, specific humidity (from which we calculate relative humidity), surface air temperature, sea-level pressure, land fraction, net downwelling shortwave radiation and downwelling longwave radiation
 
-Once the files are downloaded merge the files for each model and variable into a single file, i.e. one file per variable per model. with the name format:
+Once the files are downloaded merge the files for each model and variable into a single file, i.e. one file per variable per model, which includes the historical experiment and the future experiment (i.e. combines historical and SSP585 into one file and historical and SSP119 into another file). with the name format:
 
- `MODEL-NAME_VARIABLE-NAME_EXPERIMENT-NAME_all.nc` e.g `MIROC-ESM_tas_historical_all.nc`
+ `MODEL-NAME_VARIABLE-NAME_EXPERIMENT-NAME_all.nc` e.g `MIROC-ESM_tas_HistoricalAndSSP119_all.nc`
 
 For this I use cdo e.g. on the linux command line: `cdo mergetime relevant_input_files*.nc output_filename.nc`, or in practice I would have this in a python script which loops through them all and calls CDO using the subprocess module.
 
@@ -72,13 +72,13 @@ uncompress this
 
 `tar zxvf OTPS2.tar.Z`
 
-move the data you have downlaoded into the current working dorectory (ignoring the waning about 'cannot move...'):
+move the data you have downloaded into the current working directory (ignoring the waning about 'cannot move...'):
 
 `mv OTPS2/* .`
 
 (note, ignore the warning: mv: cannot move 'OTPS2/DATA' to './DATA': Directory not empty)
 
-then move the data out of a subdirectory to your wokring directory:
+then move the data out of a subdirectory to your working directory:
 
 `mv OTPS2/DATA/load_file DATA/`
 
@@ -144,3 +144,32 @@ location_of_World_Ocean_Atlas13_Nitrate_file =  '/data/NAS-geo01/ph290/observati
 then run with:
 
 `python2.7 initialisation_nitrate.py`
+
+## Producing the meterological forcing files (note this takes quite a while!)
+
+get the processing script:
+
+`wget https://raw.githubusercontent.com/PaulHalloran/s2p3/master/s2p3_forcing/process_cmip6_era5_for_s2p3_rv2.0.py`
+
+Potentially edit the lines in the file process_cmip6_era5_for_s2p3_rv2.0.py which loosely below the lines below if you want to e.g. change the years over which the model is run.
+
+`min_depth_lim = 10.0
+max_depth_lim = 50.0
+
+start_year = 1970
+end_year = 2100`
+
+Make sure that the line `domain_file = 's12_m2_s2_n2_h_map.dat'` matches the name of yoru domain file (created above)
+
+Specify the directory holding the CMIP6 data you have downloaded and processed, and the directory you want the final forcing files to go to:
+
+`directory_containing_files_to_process = '/data/BatCaveNAS/ph290/ecmwf_era5/day_mean/region_of_interest/'
+output_directory = '/data/BatCaveNAS/ph290/ecmwf_era5/day_mean/output_processed/global_tropics/'`
+
+Run the script to produce the forcing files:
+
+`python2.7 process_cmip6_era5_for_s2p3_rv2.0.py`
+
+Things to note:
+- I've made some minor edits to this and have not confirmed it runs yet, if it hits a problem just let me know
+- This script can take a good few hours to run
