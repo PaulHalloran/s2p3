@@ -85,3 +85,50 @@ compile the code (using the three lines below), not worrying about 'warning' mes
 `gfortran -o predict_tide -fconvert=swap -frecord-marker=4 predict_tide.f90 subs.f90`
 
 `gfortran -o extract_local_model -fconvert=swap -frecord-marker=4 extract_local_model.f90 subs.f90`
+
+## Producing the domain file containing the latitude, longitude, tidal and bathymetry data
+
+Get hold of the ETOP01 bathymety file:
+
+`wget https://www.ngdc.noaa.gov/mgg/global/relief/ETOPO1/thredds/ETOPO1_Bed_g_gmt4.nc`
+
+edit the first 6 lines in tides_bathymetry.py (downloaded above) to specify the domain you want the model to run for and the horizonal resolution (lines copied below for illustration). I wopudl suggest the below values:
+
+`minimum_latitude = -35.0
+maximum_latitude = 35.0
+latitude_resolution = 0.1 #degrees
+
+minimum_longitude = -180
+maximum_longitude = 180
+longitude_resolution = 0.1 #degrees`
+
+point the line `location_of_bathymetry_file =  '/data/NAS-ph290/ph290/observations/ETOP/ETOPO1_Bed_g_gmt4.nc'` to your downloaded bathymetry file (see start of this section)
+
+produce the domain file by running tides_bathymetry.py
+
+`python2.7 tides_bathymetry.py`
+
+This produces the file: `s12_m2_s2_n2_h_map.dat`
+
+## Producing the nutrient initialisation file
+
+download the World Ocean Atlas Nutrient data:
+
+`wget https://data.nodc.noaa.gov/thredds/fileServer/ncei/woa/nitrate/all/1.00/woa18_all_n00_01.nc`
+
+edit the first three lines of
+
+`initialisation_nitrate.py`
+
+to:
+
+`min_depth_lim = 10.0
+max_depth_lim = 50.0
+
+output_file_name = 'initial_nitrate.dat'
+domain_file_name = 's12_m2_s2_n2_h_map.dat' # note this must match the name of your domain file - see above step
+location_of_World_Ocean_Atlas13_Nitrate_file =  '/data/NAS-geo01/ph290/observations/woa13_all_n13_01.nc' # This must match the World Ocean Atlas Nutrient file you've downloaded above`
+
+then run with:
+
+`python2.7 initialisation_nitrate.py`
