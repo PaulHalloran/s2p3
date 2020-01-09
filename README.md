@@ -3,7 +3,7 @@
 ## software requirements to process and produce forcing following tehse instructions:
 * git
 * Python2.7 with additional libraries (see below)
-<p>installing conda will make this easier https://conda.io/docs/user-guide/install/index.html<p>
+  * installing conda will make this easier https://conda.io/docs/user-guide/install/index.html
 additional libraries can then be installed with (note some of these may already be installed or be installed by others):
 conda install pandas
 conda install numpy
