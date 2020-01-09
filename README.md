@@ -17,6 +17,17 @@ instructions: https://code.mpimet.mpg.de/projects/cdo/wiki#Download-Compile-Inst
 ## Downloading CMIP model data
 
 Data available from https://esgf-node.llnl.gov/search/cmip6/
-You can download it manually, or with wget scripts. With the previous generation of models (CMIP5) I would always use the wget scripts, but I've tried this once through this website and did not get what I expected - I need to look into this.
+
+You will need to set up an account to get access.
+
+You can download it manually, or with wget scripts. With the previous generation of models (CMIP5) I would always use the wget scripts, but I've tried this once through this website and did not get what I expected - I need to look into this. The image below shows which items we need to specify.
 
 ![Image of CMIP5 data access](https://github.com/PaulHalloran/s2p3/raw/master/readme_files/cmip6_stuff.jpg)
+
+The variables we want are:
+
+vas, uas, clt, huss, tas, psl, sftlf, rsds and rlds
+
+These correspond to U and V surface winds, cloud fraction, specific humidity (from which we calculate relative humidity), surface air temperature, sea-level pressure, land fraction, net downwelling shortwave radiation and downwelling longwave radiation
+
+Once the files are downloaded, I suggest merging the files for each model and variable into a single file, i.e. one file per variable per model. For this I use `CDO mergetime relevant_input_files*.nc output_filename.nc`
