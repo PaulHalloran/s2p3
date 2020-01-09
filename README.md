@@ -18,11 +18,17 @@ instructions: https://code.mpimet.mpg.de/projects/cdo/wiki#Download-Compile-Inst
 
 Data available from https://esgf-node.llnl.gov/search/cmip6/
 
+Some potentially useful context here: https://www.earthsystemcog.org/site_media/projects/wip/CMIP6_global_attributes_filenames_CVs_v6.2.6.pdf
+
+and here https://pcmdi.llnl.gov/ipcc/standard_output.pdf?id=2
+
 You will need to set up an account to get access.
 
 You can download it manually, or with wget scripts. With the previous generation of models (CMIP5) I would always use the wget scripts, but I've tried this once through this website and did not get what I expected - I need to look into this. The image below shows which items we need to specify.
 
 ![Image of CMIP5 data access](https://github.com/PaulHalloran/s2p3/raw/master/readme_files/cmip6_stuff.jpg)
+
+*Note in addition to what I have specified in the image above, we will also need the variables for the 'historical' Experiment ID*
 
 The variables we want are:
 
@@ -30,7 +36,13 @@ vas, uas, clt, huss, tas, psl, sftlf, rsds and rlds
 
 These correspond to U and V surface winds, cloud fraction, specific humidity (from which we calculate relative humidity), surface air temperature, sea-level pressure, land fraction, net downwelling shortwave radiation and downwelling longwave radiation
 
-Once the files are downloaded, I suggest merging the files for each model and variable into a single file, i.e. one file per variable per model. For this I use cdo e.g. on the linux command line: `cdo mergetime relevant_input_files*.nc output_filename.nc`, or in practice I would have this in a python script which loops through them all and calls CDO using the subprocess module.
+Once the files are downloaded merge the files for each model and variable into a single file, i.e. one file per variable per model. with the name format:
+
+ `MODEL-NAME_VARIABLE-NAME_EXPERIMENT-NAME_all.nc` e.g `MIROC-ESM_tas_historical_all.nc`
+
+For this I use cdo e.g. on the linux command line: `cdo mergetime relevant_input_files*.nc output_filename.nc`, or in practice I would have this in a python script which loops through them all and calls CDO using the subprocess module.
+
+The land sea mask file (sftlf), needs to be in the name format `sftlf_fx_'+cmip_model+'_*.nc`
 
 ## Scripts for producing the forcing files
 
