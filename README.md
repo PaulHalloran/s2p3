@@ -1,6 +1,6 @@
 # s2p3 Downloading CMIP model data to drive downscaling model, and creating forcing files
 
-## software requirements to process and produce forcing following tehse instructions:
+## software requirements to process and produce forcing following these instructions:
 * git
 * Python2.7 with additional libraries (see below)
   * installing conda will make this easier https://conda.io/docs/user-guide/install/index.html. Additional libraries can then be installed with (note some of these may already be installed or be installed by others):
@@ -13,3 +13,10 @@
 * CDO (https://code.mpimet.mpg.de/projects/cdo/). This will want to be installed with netcdf and hdf libraries and with multiprocessing support
 instructions: https://code.mpimet.mpg.de/projects/cdo/wiki#Download-Compile-Install note this can be tricky - make sure that it used the same netcdf libraries and hdf libraries as your python bits
 * The OSU Tidal Data Inversion software, installation described below (http://volkov.oce.orst.edu/tides/)
+
+## Downloading CMIP model data
+
+Data available from https://esgf-node.llnl.gov/search/cmip6/
+You can download it manually, or with wget scripts. With the previous generation of models (CMIP5) I would always use the wget scripts, but I've tried this once through this website and did not get what I expected - I need to look into this.
+
+![Image of CMIP5 data access](https://github.com/PaulHalloran/s2p3/raw/master/readme_files/cmip6_stuff.jpg)
